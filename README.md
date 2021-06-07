@@ -65,3 +65,47 @@ flower.png
 
 ## ローカルでの動作方法
 git cloneしてから、ローカルで動作をさせるまでに必要なコマンドを記述。この時、アプリケーション開発に使用した環境を併記することを忘れないこと（パッケージやRubyのバージョンなど）
+
+
+## テーブル設計
+
+### users テーブル
+
+| Column          | Type   | Options     |
+| --------        | ------ | ----------- |
+| nickname        | string | null: false |
+| email           | string | null: false |
+| password        | string | null: false |
+| profile         | text   | null: false |
+| favorite_flower | text   | null: false |
+
+#### Association
+
+- has_many :timelines
+- has_many :comments
+
+### timelines テーブル
+
+| Column         | Type         | Options           |
+| ------         | ------       | -----------       |
+| title          | string       | null: false       |
+| comment        | text         | null: false       |
+| user           | references   | foreign_key: true |
+
+#### Association
+
+- belongs_to :users
+- has_many   :comments
+
+### comments テーブル
+
+| Column       | Type       | Options          |
+| -------      | ---------- | ----------------- |
+| text         | text       | null: false       |
+| user         | references | foreign_key: true |
+| timeline     | references | foreign_key: true |
+
+#### Association
+
+- belongs_to :users
+- belongs_to :timelines
